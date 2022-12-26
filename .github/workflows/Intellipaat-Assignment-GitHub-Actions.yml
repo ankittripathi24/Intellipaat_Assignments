@@ -57,7 +57,7 @@ jobs:
     - name: Build, tag, and push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: 754364832341.dkr.ecr.us-east-1.amazonaws.com/intelipaat_capstone_private:latest
+        REPOSITORY: 754364832341.dkr.ecr.us-east-1.amazonaws.com/intelipaat_capstone_private
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
