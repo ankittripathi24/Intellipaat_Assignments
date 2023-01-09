@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intelipaat-captone-eks-deployment
+  labels:
+    app: intelipaat-captone-eks-labels
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: intelipaat-captone-eks-labels
+  template:
+    metadata:
+      labels:
+        app: intelipaat-captone-eks-labels
+    spec:
+      containers:
+      - name: intelipaat-captone-eks
+        image: 754364832341.dkr.ecr.us-east-1.amazonaws.com/intelipaat_capstone_private:744d9ca245d6ba067794c80f4e1a8d829ed6c30d
+        ports:
+        - containerPort: 5000
+          protocol: TCP

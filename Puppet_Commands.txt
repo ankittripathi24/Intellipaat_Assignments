@@ -1,0 +1,115 @@
+**************** On Master**************** 
+
+## Update HOSTNAME
+cat /etc/hosts
+127.0.0.1 localhost
+
+# 172.31.9.234 puppet
+172.31.9.234 puppetmaster.example.com puppet
+172.31.17.47 puppetagent01.example.com
+--------------------------------------------------------------------------------------------------
+
+sudo hostnamectl set-hostname puppetmaster.example.com
+
+--------------------------------------------------------------------------------------------------
+
+sudo apt-get update
+wget https://apt.puppetlabs.com/puppet6-release-bionic
+sudo dpkg -i puppet6-release-bionic.deb
+apt-get install puppetserver
+
+--------------------------------------------------------------------------------------------------
+sudo vi /etc/default/puppetserver
+JAVA_ARGS="-Xms512m -Xmx512m -Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+--------------------------------------------------------------------------------------------------
+sudo systemctl start puppetserver
+--------------------------------------------------------------------------------------------------
+cat /etc/puppetlabs/puppet/puppet.conf
+# This file can be used to override the default puppet settings.
+# See the following links for more details on what settings are available:
+# - https://puppet.com/docs/puppet/latest/config_important_settings.html
+# - https://puppet.com/docs/puppet/latest/config_about_settings.html
+# - https://puppet.com/docs/puppet/latest/config_file_main.html
+# - https://puppet.com/docs/puppet/latest/configuration.html
+[server]
+vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+codedir = /etc/puppetlabs/code
+
+[main]
+server=puppet
+
+[master]
+vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+codedir = /etc/puppetlabs/code
+--------------------------------------------------------------------------------------------------
+
+ln -s /opt/puppetlabs/bin/puppet /usr/bin/puppet
+ln -s /opt/puppetlabs/bin/puppetserver /usr/bin/puppetserver
+--------------------------------------------------------------------------------------------------
+puppetserver ca list --all
+puppetserver ca sign  --all
+puppetserver ca list --all
+--------------------------------------------------------------------------------------------------
+
+cd /etc/puppetlabs/code/environments/production/manifests/
+vim site.pp
+user { "ankit":
+        ensure => "present",
+}
+
+puppet parser validate site.pp
+
+
+
+
+**************** On Slave **************** 
+## Update HOSTNAME
+cat /etc/hosts
+127.0.0.1 localhost
+
+# 172.31.9.234 puppet
+172.31.9.234 puppetmaster.example.com puppet
+172.31.17.47 puppetagent01.example.com
+--------------------------------------------------------------------------------------------------
+
+sudo hostnamectl set-hostname puppetagent01.example.com
+
+--------------------------------------------------------------------------------------------------
+wget https://apt.puppetlabs.com/puppet6-release-bionic.deb
+sudo dpkg -i puppet6-release-bionic.deb
+sudo apt-get update
+--------------------------------------------------------------------------------------------------
+
+sudo apt-get install puppet-agent
+
+cat /etc/puppetlabs/puppet/puppet.conf
+# This file can be used to override the default puppet settings.
+# See the following links for more details on what settings are available:
+# - https://puppet.com/docs/puppet/latest/config_important_settings.html
+# - https://puppet.com/docs/puppet/latest/config_about_settings.html
+# - https://puppet.com/docs/puppet/latest/config_file_main.html
+# - https://puppet.com/docs/puppet/latest/configuration.html
+
+[main]
+certname = puppetagent01.example.com
+server = puppetmaster.example.com
+--------------------------------------------------------------------------------------------------
+
+systemctl status puppet
+sudo systemctl start puppet
+--------------------------------------------------------------------------------------------------
+
+ln -s /opt/puppetlabs/bin/puppet /usr/bin/puppet
+
+puppet agent -tv
+id ankit
+--------------------------------------------------------------------------------------------------
+
+
+https://www.bogotobogo.com/DevOps/Puppet/Puppet6-Install-on-Ubuntu18.0.4.php
