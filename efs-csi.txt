@@ -1,0 +1,85 @@
+ cd D:\Learning_AWS\Kubernetes-yaml-files
+   2 eksctl delete cluster intellipaat-cluster
+   3 eksctl delete cluster -f .\Cluster.yaml
+   4 eksctl create cluster -f .\Cluster.yaml
+   5 oidc_id=$(aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5)
+   6 oidc_id=$(aws eks describe-cluster --name eksctl-intellipaat-cluster --query "cluster.identity.oidc.issuer" --output text | cu...
+   7 aws eks describe-cluster --name intellipaat-cluster  --query "cluster.identity.oidc.issuer" --output text | cut -d '/' -f 5
+   8 aws eks describe-cluster --name intellipaat-cluster  --query "cluster.identity.oidc.issuer" --output text
+   9 aws iam list-open-id-connect-providers
+  10 eksctl utils associate-iam-oidc-provider --cluster intellipaat-cluster  --approve
+  11 eksctl utils associate-iam-oidc-provider --cluster intellipaat-cluster  --approve
+  12 eksctl get cluster
+  13 aws eks get-cluster
+  14 aws eks list-clusters
+  15 aws sts
+  16 aws sts help
+  17 aws sts get-caller-identity
+  18 aws configure
+  19 aws sts get-caller-identity
+  20 aws eks list-clusters
+  21 aws eks describe-cluster --name intellipaat-cluster --query "cluster.identity.oidc.issuer" --output text
+  22 aws iam list-open-id-connect-providers | grep F143DA1A6FA4849049B58A918FAA86BE
+  23 aws iam list-open-id-connect-providers
+  24 eksctl utils associate-iam-oidc-provider --cluster intellipaat-cluster  --approve
+  25 aws iam list-open-id-connect-providers
+  26 ls
+  27 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
+  28 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
+  29 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json .
+  30 curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
+  31 vi iam-policy-example.json
+  32 new-item iam-policy-example.json
+  33 notepad iam-policy-example.json
+  34 aws iam create-policy \
+  35     --policy-name AmazonEKS_EFS_CSI_Driver_Policy \
+  36 aws iam create-policy --policy-name AmazonEKS_EFS_CSI_Driver_Policy --policy-document file://iam-policy-example.json
+  37 eksctl create iamserviceaccount --cluster intellipaat-cluster --namespace kube-system --name efs-csi-controller-sa --attach-po...
+  38 helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+  39 helm repo update
+  40 helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver --namespace kube-system  --set image.repository=75436...
+  41 kubectl kustomize "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.4" > public-...
+  42 cat .\public-ecr-driver.yaml
+  43 notepad .\public-ecr-driver.yaml
+  44 kubectl apply -f public-ecr-driver.yaml
+  45 vpc_id=$(aws eks describe-cluster --name intellipaat-cluster --query "cluster.resourcesVpcConfig.vpcId" --output text)
+  46 aws eks describe-cluster --name intellipaat-cluster --query "cluster.resourcesVpcConfig.vpcId" --output text
+  47 aws ec2 describe-vpcs \
+  48     --vpc-ids $vpc_id \
+  49     --query "Vpcs[].CidrBlock" \
+  50     --output text \
+  51     --region region-code
+  52 aws ec2 describe-vpcs /
+  53 aws ec2 describe-vpcs --vpc-ids vpc-0677d1524723df58a --query "Vpcs[].CidrBlock" --output text --region us-west-2
+  54 aws ec2 create-security-group --group-name MyEfsSecurityGroup --description "My EFS security group" --vpc-id vpc-0663ed720b0461374 --output text
+  55 aws ec2 authorize-security-group-ingress --group-id sg-028aa9317bddc07dd --protocol tcp --port 2049 --cidr 192.168.0.0/16
+  56 aws efs create-file-system --region us-west-2 --performance-mode generalPurpose --query 'FileSystemId' --output text
+  57 kubectl get nodes
+  58 aws ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-0677d1524723df58a" --query 'Subnets[*].{SubnetId: SubnetId,Availabi...
+  59 aws efs create-mount-target --file-system-id fs-03f02f62fdd2d6e71 --subnet-id 34msubnet-03fdd649393159383 --security-groups sg...
+  60 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-03fdd649393159383 --security-groups sg-02...
+  61 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-0f9a748d72c8d4166 --security-groups sg-02...
+  62 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-02707a66d8db7a096 --security-groups sg-02...
+  63 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-05362211eae845b8f --security-groups sg-02...
+  64 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-0726a3266cd2329bd --security-groups sg-02...
+  65 aws efs create-mount-target --file-system-id fs-0e72bbe6e9f94e0bb --subnet-id subnet-0c09941d418bdc93f --security-groups sg-02...
+  66 aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
+  67 git clone https://github.com/kubernetes-sigs/aws-efs-csi-driver.git
+  68 cd aws-efs-csi-driver/examples/kubernetes/multiple_pods/
+  69 aws efs describe-file-systems --query "FileSystems[*].FileSystemId" --output text
+  70 notepad specs/pv.yaml
+  71 kubectl apply -f specs/pv.yaml
+  72 kubectl apply -f specs/claim.yaml
+  73 kubectl apply -f specs/storageclass.yaml
+  74 kubectl get pv -w
+  75 kubectl apply -f specs/pod1.yaml
+  76 kubectl apply -f specs/pod2.yaml
+  77 kubectl get pods --watch
+  78 kubectl describe pv efs-pv
+  79 kubectl exec -ti app1 -- tail /data/out1.txt
+  80 kubectl exec -ti app2 -- tail /data/out1.txt
+  81 kubectl delete -f specs/
+  82 cd ../../..
+  83 cd -
+  84 cd ..
+  85 eksctl delete cluster -f .\Cluster.yaml

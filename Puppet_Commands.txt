@@ -1,10 +1,11 @@
 **************** On Master**************** 
 
-## Update HOSTNAME
+## Update HOSTNAME 
+##Add Private IP Address
 cat /etc/hosts
 127.0.0.1 localhost
 
-# 172.31.9.234 puppet
+# 172.31.9.234 puppet 
 172.31.9.234 puppetmaster.example.com puppet
 172.31.17.47 puppetagent01.example.com
 --------------------------------------------------------------------------------------------------
@@ -14,9 +15,9 @@ sudo hostnamectl set-hostname puppetmaster.example.com
 --------------------------------------------------------------------------------------------------
 
 sudo apt-get update
-wget https://apt.puppetlabs.com/puppet6-release-bionic
+wget https://apt.puppetlabs.com/puppet6-release-bionic.deb
 sudo dpkg -i puppet6-release-bionic.deb
-apt-get install puppetserver
+sudo apt-get install puppetserver
 
 --------------------------------------------------------------------------------------------------
 sudo vi /etc/default/puppetserver
@@ -113,3 +114,80 @@ id ankit
 
 
 https://www.bogotobogo.com/DevOps/Puppet/Puppet6-Install-on-Ubuntu18.0.4.php
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+for Ubuntu 20 what worked:
+https://computingforgeeks.com/setup-puppet-master-and-agent-ubuntu/
+
+
+Only change is /etc/puppetlabs/puppet/puppet.conf in AGENT is :
+[server]
+vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+codedir = /etc/puppetlabs/code
+dns_alt_names = puppet,puppetserver
+
+[main]
+server = puppet
+certname = puppetclient
+environment = production
+runinterval = 1h
+
+in MASTER is :
+[server]
+vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+codedir = /etc/puppetlabs/code
+
+
+[main]
+server=puppet
+
+[master]
+vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+codedir = /etc/puppetlabs/code
+
+
+
+
+sudo ufw allow 8140/tcp
+
+mtr puppet
+sudo systemctl status firewalld
+
+
+ERROR I FIXED: name 'puppetmaster' did not match server certificate; expected one of puppetmaster.ap-south-1.compute.internal DNS:puppet, DNS:puppetmaster.ap-south-1.compute.internal
+
+
+sudo vim /etc/hosts
+172.31.42.238 puppetmaster puppet
+172.31.3.241 puppetclient
+
+
+to get changes in slave/ agent
+
+sudo puppet agent --test
+
+
+after making changes do this on AGENT:
+
+sudo systemctl restart puppet
+sudo systemctl enable puppet
+sudo systemctl status puppet
+
+after making changes do this on MASTER:
+sudo systemctl restart  puppetserver
+
+MASTER MAIN FILE:
+
+
+cd /etc/puppetlabs/code/environments/production/manifests/
+sudo nano site.pp
