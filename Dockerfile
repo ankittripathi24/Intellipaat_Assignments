@@ -7,7 +7,7 @@ COPY flaskapp /opt/
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /opt/
 
-CMD [ "gunicorn", "--bind" , "0.0.0.0:5000", "app:app"]
-
+# CMD [ "gunicorn", "--bind" , "0.0.0.0:5000", "app:app"]
+CMD ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
 
 

@@ -1,2 +1,6 @@
-flask
-gunicorn
+Flask==2.2.2
+flask_sqlalchemy==3.0.3
+Flask_WTF==1.1.1
+psycopg2==2.9.5
+psycopg2_binary==2.9.5
+WTForms==2.3.3

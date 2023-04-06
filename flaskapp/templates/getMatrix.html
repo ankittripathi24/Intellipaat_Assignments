@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="jumbotron">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend2">MDS-</span>
+                </div>
+                <input type="text" class="form-control" id="validationDefaultUsername" placeholder="EPIC ID" aria-describedby="inputGroupPrepend2" required>
+            </div>
+        </div>
+    </div>
+        <p>{{var_to_be_inserted}}Only enter the numeric part of the Epic. If Epic is MDS-1234 enter 1234.</p>
+    <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</form>
+
+<table>
+    <!-- <caption>Matrix</caption> -->
+    <thead>
+    <tr>
+        <th>EPIC</th>
+        <th>Linked EPICS</th>
+        <th>6 Pager</th>
+        <th>Stories</th>
+        <th>Fix Version</th>
+        <th>Others</th>
+    </tr>
+    <tbody>
+        {% for record in LIST_RECORDS %}
+            <tr>
+                <td>{{ record["EPIC"] }}</td>
+                <td> {{ record["LINKED_EPIC"] }} </td>
+                <td> {{ record["SIX_PAGER"] }} </td>
+                <td>  {{ record["STORY"] }} </td>
+                <td> {{ record["FIX_VERSION"] }} </td>
+                <td>  {{ record["OTHERS"] }} </td>
+            </tr>
+        {% endfor %}
+    <tbody>
+</table>
+
+{% endblock %}

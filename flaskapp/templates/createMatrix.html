@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="jumbotron">
+    <div class="form-row">
+        <div class="col-md-4 mb-3">
+            <p>Let us create the Matrix</p>
+            <p>Fill out this form</p>
+            
+            {% for mess in get_flashed_messages() %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{mess}}
+                  </div>
+                {% endfor %}
+                </div>
+            </div>
+                
+                <form method="POST" class="col-md-10 row-md-10">
+                    {{form.hidden_tag()}}
+                    <div class="form-group col-md-3">
+                        {{form.EPIC.label}}{{form.EPIC(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {{form.LINKED_EPIC.label}}{{form.LINKED_EPIC(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {{form.SIX_PAGER.label}}{{form.SIX_PAGER(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {{form.STORY.label}}{{form.STORY(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {{form.FIX_VERSION.label}}{{form.FIX_VERSION(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        {{form.OTHERS.label}}{{form.OTHERS(class="form-control")}}
+                        {{br}}
+                    </div>
+
+                    
+                    {{form.submit(class="btn btn-primary")}}
+                </form>
+
+
+
+
+            <!-- <form action="{{ url_for('thank_you') }}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2">EPIC_ID</span>
+                    </div>
+                    <input type="text" class="form-control" id="validationDefaultUsername" placeholder="EPIC ID" aria-describedby="inputGroupPrepend2" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2">LINKED_EPIC_ID</span>
+                    </div>
+                    <input type="text" class="form-control" id="validationDefaultUsername" placeholder="LINKED EPIC ID" aria-describedby="inputGroupPrepend2" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend2">6_PAGER_ID</span>
+                    </div>
+                    <input type="text" class="form-control" id="validationDefaultUsername" placeholder="6 PAGER ID" aria-describedby="inputGroupPrepend2" required>
+                </div>
+
+                <button class="btn btn-primary" type="submit">Submit</button>
+
+            </form> -->
+{% endblock %}
